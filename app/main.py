@@ -8,12 +8,15 @@ def get_weather() -> None:
     load_dotenv()
     API_KEY = os.getenv("API_KEY")
     FILTERING = "Paris"
-    URL = (f"http://api.weatherapi.com/v1/"
-           f"current.json?key={API_KEY}&q={FILTERING}")
+    URL = "http://api.weatherapi.com/v1/current.json"
+    params = {
+        "key": API_KEY,
+        "q": FILTERING,
+    }
     if not API_KEY:
-        print("API_KEY not set")
+        raise  ValueError("API_KEY not set")
     else:
-        response = requests.get(URL)
+        response = requests.get(URL, params=params)
         if response.status_code == 200:
             data = response.json()
             city = data["location"]["name"]
